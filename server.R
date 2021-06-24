@@ -21,16 +21,16 @@ server <- shinyServer(function(input, output, session) {
   ##################### Importer la base ################
   dat <- reactive({
     req(input$file1) ## ?req #  require that the input is available
-    
+
     inFile <- input$file1
-    
+
     # tested with a following dataset: write.csv(mtcars, "mtcars.csv")
     # and                              write.csv(iris, "iris.csv")
     df <- read.csv(inFile$datapath, header = input$header, sep = input$sep,
                    quote = input$quote, na.strings=c("NA","NaN", " ",""))
-    
-    
-    
+
+
+
     # Update inputs (you could create an observer with both updateSel...)
     # You can also constraint your choices. If you wanted select only numeric
     # variables you could set "choices = sapply(df, is.numeric)"
@@ -39,10 +39,11 @@ server <- shinyServer(function(input, output, session) {
                       choices = names(df), selected = names(df))
     updateSelectInput(session, inputId = 'ycol', label = 'Y Variable',
                       choices = c(names(df), selected = names(df)[2]))
-    
-    
+
+
     return(df)
   })
+  #dat <- read.csv("Base.csv", header=TRUE, sep=";")
   
   ########### minimiser la base ###############
   mini<-reactive({
